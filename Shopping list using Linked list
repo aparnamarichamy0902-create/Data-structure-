@@ -1,0 +1,123 @@
+#include <iostream>
+using namespace std;
+struct Node
+{
+    string item;
+    Node* next;
+};
+Node* head = NULL;
+void addItem(string name)
+{
+    Node* newNode = new Node;
+    newNode->item = name;
+    newNode->next = NULL;
+    if (head == NULL)
+    {
+        head = newNode;
+    }
+    else
+    {
+        Node* temp = head;
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+    cout << "Item added successfully.\n";
+}
+void removeItem(string name)
+{
+    Node* temp = head;
+    Node* prev = NULL;
+
+    while (temp != NULL && temp->item != name)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+    {
+        cout << "Item not found.\n";
+        return;
+    }
+    if (prev == NULL)
+        head = temp->next;
+    else
+        prev->next = temp->next;
+    delete temp;
+    cout << "Item removed successfully.\n";
+}
+void searchItem(string name)
+{
+    Node* temp = head;
+    while (temp != NULL)
+    {
+        if (temp->item == name)
+        {
+            cout << "Item found.\n";
+            return;
+        }
+        temp = temp->next;
+    }
+    cout << "Item not found.\n";
+}
+void display()
+{
+    Node* temp = head;
+    if (head == NULL)
+    {
+        cout << "Shopping list is empty.\n";
+        return;
+    }
+    cout << "Shopping List:\n";
+    while (temp != NULL)
+    {
+        cout << temp->item << endl;
+        temp = temp->next;
+    }
+}
+int main()
+{
+    int choice;
+    string item;
+    do
+    {
+        cout << "\n--- Shopping List ---\n";
+        cout << "1. Add Item\n";
+        cout << "2. Remove Item\n";
+        cout << "3. Search Item\n";
+        cout << "4. Display Items\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice)
+        {
+            case 1:
+                cout << "Enter item: ";
+                cin >> item;
+                addItem(item);
+                break;
+            case 2:
+                cout << "Enter item to remove: ";
+                cin >> item;
+                removeItem(item);
+                break;
+            case 3:
+                cout << "Enter item to search: ";
+                cin >> item;
+                searchItem(item);
+                break;
+            case 4:
+                display();
+                break;
+            case 5:
+                cout << "Program ended.\n";
+                break;
+
+            default:
+                cout << "Invalid choice.\n";
+        }
+    } while (choice != 5);
+    return 0;
+}
